@@ -1,97 +1,59 @@
-# Nest.js project boilerplate nestjs-project-boilerplate
+# Articles API
 
-## Repository contents
+Backend API project built with NestJS 11 and TypeScript.
 
-Repository contains boilerplate project using Nest.js.
+## Technologies
 
-Project is using Node.js and TypeScript in versions listed below:
+- NestJS 11
+- TypeScript
+- PostgreSQL 16
+- Prisma 7
+- Docker and Docker Compose
+- Swagger
+- Cucumber
 
-| Technology | Version |
-| ---------- | ------- |
-| Node.js    | 24.10   |
-| TypeScript | 5.8     |
+## Requirements
 
-Main dependencies are Nest.js and Prisma ORM in versions listed below.
+- Docker Desktop
+- WSL 2 (Ubuntu)
 
-| Vendor  | Version |
-| ------- | ------- |
-| Nest.js | ^11.1   |
-| Prisma  | ^6.7.0  |
+## Getting Started
 
-## Infrastructure
-
-We use the following services:
-
-- AWS EC2 instance with Dokku, with:
-    - app container (docker container locally)
-    - PostgreSQL database (PostgreSQL container locally)
-
-Locally, they are set up using `docker compose`.
-
-### Setting project up
-
-This app uses docker-based virtualization to run. In order to set up project, follow these steps:
-
-1. Clone project by running:
-    ```shell
-    git clone git@github.com:oskarbarcz/nestjs-project-boilerplate.git
-    ```
-2. Prepare environment variable file by copying .env.dist to .env and fill it with your data.
-    ```shell
-    cd nestjs-project-boilerplate
-    cp .env.dist .env
-    ```
-3. Use `docker compose` to set up the environment
-
-    ```shell
-    docker compose up -d --build
-    ```
-
-    Packages, database schema, seed data will be configured automatically.
-
-4. Your project should be up and running. Open browser and go to http://localhost/api to see the api documentation.
-   You can preview app logs by running:
-    ```shell
-    docker compose logs -f app
-    ```
-
-### Running the project tips
-
-> **Do not execute NPM or any other commands regarding project from your host machine, use container shell instead.**
-> For example, to generate Prisma schema run:
->
-> ```shell
-> docker compose exec app npm run lint
-> ```
->
-> It will execute the `npm run lint` command in the container shell.
-
-To shut down the containers run:
-
-```shell
-docker compose down
-```
-
-## Testing
-
-To run tests, execute the following commands:
+Clone the repository:
 
 ```bash
-# unit tests
-$ docker compose exec app npm run test
-
-# functional tests
-$ docker compose exec app npm run test:functional
+git clone https://github.com/aleksanderwojkowski/articles-api.git
+cd articles-api
 ```
 
-We use **Jest** for unit tests, and **cucumber-js** for functional tests. Unit tests are stored in the `src` directory
-just near the tested module, while functional tests are stored in the `features` directory.
+Start the application:
 
-## Release & deploy
+```bash
+docker compose up --build -d
+```
 
-> Before merging Pull Request to the main branch, make sure to bump the project version in the `package.json` file,
-> line `3`. Then it's a good practice to run `npm install` inside a docker container to update the `package-lock.json`
-> file.
->
-> Not bumping the version will result in the release failure. There is a step in CI that will protect the main branch
-> from being merged without bumping the version.
+## API Documentation
+
+Swagger documentation:
+
+http://localhost/api
+
+Health endpoint:
+
+http://localhost/200
+
+## Development Commands
+
+Run commands inside the application container:
+
+```bash
+docker compose exec app npm run format
+docker compose exec app npm run lint
+docker compose exec app npm run test:functional
+```
+
+## Stopping the Application
+
+```bash
+docker compose down
+```
