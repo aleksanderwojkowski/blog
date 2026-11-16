@@ -1,6 +1,6 @@
 {
   "name": "nestjs-project-boilerplate",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "author": "Aleksander Wojkowski",
   "private": true,
@@ -9,7 +9,7 @@
     "postinstall": "npx prisma generate",
     "build": "nest build",
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "start:dev": "nest start --watch --entryFile src/main",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/src/main",
     "lint:fix": "eslint . --fix",
@@ -35,8 +35,8 @@
     "@prisma/client": "^7.10.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.4",
-    "uuid": "^11.1.1",
-    "pg": "^8.23.1"
+    "pg": "^8.23.1",
+    "uuid": "^11.1.1"
   },
   "devDependencies": {
     "@cucumber/cucumber": "^12.9.0",

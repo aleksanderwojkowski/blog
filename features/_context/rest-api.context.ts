@@ -9,7 +9,36 @@ let apiToken: string | null = null;
 let apiResponse: AxiosResponse;
 
 Given('I use seed data', () => {
-  execSync('npx prisma migrate reset --force --skip-generate > /dev/null');
+  execSync(
+    'npx prisma migrate reset --force && npx prisma db seed > /dev/null',
+  );
+});
+
+Given('I have no articles', () => {
+  execSync('npx prisma db execute --stdin', {
+    input: 'DELETE FROM "Article";',
+  });
+});
+
+Given('two articles have the same publication date', () => {
+  execSync('npx prisma db execute --stdin', {
+    input: `
+      INSERT INTO "Article" ("id", "title", "content", "publishedAt")
+      VALUES
+        (
+          'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
+          'Tie breaker A',
+          'First article with the same date.',
+          TIMESTAMP '2026-04-01 10:00:00'
+        ),
+        (
+          'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
+          'Tie breaker B',
+          'Second article with the same date.',
+          TIMESTAMP '2026-04-01 10:00:00'
+        );
+    `,
+  });
 });
 
 Given('I use admin token', async () => {
@@ -71,4 +100,12 @@ Then('I dump response', () => {
 
 After(() => {
   apiToken = null;
+});
+
+When('I run the seed process again', () => {
+  execSync('npx prisma db seed > /dev/null');
+});
+
+Then('the response body should contain {int} articles', (count: number) => {
+  expect(apiResponse.data).toHaveLength(count);
 });
